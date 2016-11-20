@@ -1,6 +1,11 @@
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 
+ * @author robert
+ * 
+ */
 public class GeldRechner {
 
 	public static void main(String[] args) {
@@ -8,6 +13,9 @@ public class GeldRechner {
 
 	}
 
+	/**
+	 * Auswahlmethode
+	 */
 	public static void befehl() {
 		while (true) {
 			Scanner command = new Scanner(System.in);
@@ -27,45 +35,49 @@ public class GeldRechner {
 				System.out.println("Falsche Eingabe");
 			}
 			try {
-				TimeUnit.SECONDS.sleep(10);
+				TimeUnit.SECONDS.sleep(7);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 
 	}
-
 	public static void rechnen1() {
-		Scanner rechner1 = new Scanner(System.in);
+		Scanner rechner = new Scanner(System.in);
 		System.out.println("Auswahl \n [1]: Monatsgehalt \n [2]: Jahresgehalt");
-		int auswahl1 = rechner1.nextInt();
-		if (auswahl1 == 1) {
-			rechnen1Monat();
-		} else if (auswahl1 == 2) {
-			rechnen1Jahr();
+		int auswahl = rechner.nextInt();
+		Scanner berechner = new Scanner(System.in);
+		if (auswahl == 1) {
+			System.out.println("Dein Monatsgehalt: ");
+		} else if (auswahl == 2) {
+			System.out.println("Dein Jahresgehalt: ");
 		} else {
 			System.out.println("Falsche Eingabe");
 			rechnen1();
 		}
+		double ausrechnen = berechner.nextDouble();
+		Scanner temp = new Scanner(System.in);
+		System.out.println("Wie viel Prozent von dem Geld willst du ausgeben? [0-100] %");
+		double prozent = temp.nextInt();
+		if (prozent > 100 || prozent < 0) {
+			System.out.println("Falsche Eingabe");
+			rechnen1();
+		}
+		double tmp = ausrechnen;
+		ausrechnen = ausrechnen * (prozent * 0.01);
+		String tmp2 = null;
+		if (auswahl == 1) {
+			tmp2 = "Monat";
+			ausrechnen = Math.round((ausrechnen / (365 / 12)) * 100) / 100.0;
+		} else if (auswahl == 2) {
+			tmp2 = "Jahr";
+			ausrechnen = Math.round((ausrechnen / 365) * 100) / 100.0;
+		} else {
+			rechnen1();
+		}
 
-	}
-
-	public static void rechnen1Monat() {
-		// prozentual berechnen
-		Scanner rechnen1Monat = new Scanner(System.in);
-		System.out.println("Dein Monatsgehalt: ");
-		double berechnen1M = rechnen1Monat.nextDouble();
-		berechnen1M = Math.round((berechnen1M / (365 / 12)) * 100) / 100.0;
-		System.out.println("Du kannst " + berechnen1M + "€ pro Tag ausgeben.");
-	}
-
-	public static void rechnen1Jahr() {
-
-		Scanner rechnen1Jahr = new Scanner(System.in);
-		System.out.println("Dein Jahresgehalt: ");
-		double berechnen1J = rechnen1Jahr.nextDouble();
-		berechnen1J = Math.round((berechnen1J / 365) * 100) / 100.0;
-		System.out.println("Du kannst " + berechnen1J + "€ pro Tag ausgeben.");
+		System.out.println("Wenn du " + tmp + "€ pro " + tmp2 + " verdienst und davon " + prozent
+				+ "% ausgeben willst, kannst du " + ausrechnen + "€ pro Tag ausgeben.");
 	}
 
 	public static void rechnen2() {
